@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-ar="الاسئلة الشائعة" data-en="Frequently Asked Questions">Frequently Asked Questions</title>
+    <link rel="icon" type="image/png" href="Logo Y 5.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #202020;
+            color: #fff;
+        }
+
+        header {
+            background-color: #202020;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 50px;
+            opacity: 0;
+        }
+
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-icon {
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+        .language-icon:hover {
+   
+   color: #ff0051;
+}
+        
+
+        .language-icon i {
+            margin-right: 5px;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 10px;
+            left: -25px;
+            right: auto;
+            list-style: none;
+            border-radius: 5px;
+            display: none;
+            padding: 2px 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            background: #9900ff;
+}
+.language-dropdown:hover {
+    background: #ff0051;
+   transform: scale(1.01);
+}
+        .language-dropdown li {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .language-dropdown.show {
+            display: block;
+        }
+
+        section.content {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #fff;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .faq-item {
+            margin-bottom: 30px;
+        }
+
+        .faq-item h3 {
+            font-size: 1.5em;
+            color: #9900ff;
+            cursor: pointer;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .faq-item h3:hover {
+            color: #ff0051;
+        }
+
+        .faq-item p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-top: 10px;
+            display: none;
+            color: #fff;
+        }
+
+        footer {
+            background-color: #202020;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 1em;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            background: linear-gradient(to right, #ff0051, #9900ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .return-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(90deg, #9900ff, #ff0051);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            z-index: 999;
+        }
+
+        .return-button:hover {
+            background: linear-gradient(90deg, #ff0051, #9900ff);
+        }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+            /* عرض شريط التمرير */
+            background-color: #202020;
+            /* لون خلفية شريط التمرير */
+        }
+
+        /* تخصيص مقبض شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+            /* عرض شريط التمرير */
+            background-color: #333;
+            /* لون خلفية شريط التمرير */
+        }
+
+        /* تخصيص مقبض شريط التمرير */
+        ::-webkit-scrollbar-thumb {
+            background-color: #9900ff;
+            /* لون المقبض */
+            border-radius: 10px;
+            /* جعل المقبض دائري */
+        }
+
+        /* عند تمرير الفأرة فوق المقبض */
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #ff0051;
+            /* لون المقبض عند التمرير */
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        /* حاوية التقدم */
+        .progress-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* الشعار */
+        .loading-logo {
+            width: 80px;
+            position: absolute;
+            z-index: 3;
+            /* الشعار يظهر فوق النص والدائرة */
+        }
+
+        /* دائرة التقدم */
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#ff0051 0%, #9900ff 0%);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            /* تظهر الدائرة أسفل النص */
+        }
+
+        /* الجزء الداخلي للدائرة */
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1;
+            /* الجزء الداخلي يظهر أسفل النص */
+        }
+
+        /* نص التحميل */
+        .loading-text {
+            position: absolute;
+            font-size: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            z-index: 3;
+            margin-top: 180px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="Logo Y 2.png" alt="Logo" class="logo">
+            <h1 data-en="Frequently Asked Questions (FAQ)" data-ar="الأسئلة الشائعة (FAQ)">Frequently Asked Questions
+                (FAQ)</h1>
+        </div>
+        <div class="language-selector">
+            <div class="language-icon" id="languageIcon">
+                <i class="fas fa-globe"></i>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <ul class="language-dropdown" id="languageDropdown">
+                <li data-lang="en">English</li>
+                <li data-lang="ar">العربية</li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="content">
+        <h2 data-en="Common Questions About Youssef Generate Image" data-ar="الأسئلة الشائعة عن Youssef لتوليد الصور">
+            Common Questions About Youssef Generate Image
+        </h2>
+
+        <!-- FAQ Items -->
+        <div class="faq-item">
+            <h3 data-en="What is Youssef Generate Image?" data-ar="يعني ايه Youssef لتوليد الصور؟">What is Youssef
+                Generate Image?</h3>
+            <p data-en="Youssef Generate Image is a platform that uses advanced AI to turn your text descriptions into stunning images. It's perfect for anyone who wants to create professional visuals without needing graphic design skills. Just type in your description, and let the magic happen."
+                data-ar="Youssef لتوليد الصور هو موقع بيستخدم الذكاء الصناعي لتحويل الوصف اللي بتكتبه لصور رهيبة. مناسب لأي حد عايز يصمم صور احترافية من غير ما يكون مصمم. اكتب وصفك وخلي الموقع يعمل السحر.">
+                Youssef Generate Image is a platform that uses advanced AI to turn your text descriptions into stunning
+                images. It's perfect for anyone who wants to create professional visuals without needing graphic design
+                skills. Just type in your description, and let the magic happen.
+            </p>
+        </div>
+
+        <div class="faq-item">
+            <h3 data-en="How does it work?" data-ar="إزاي بيشتغل؟">How does it work?</h3>
+            <p data-en="Simply provide a text description of what you want the image to look like. The platform’s AI interprets your description and creates an image tailored to your input. It uses state-of-the-art algorithms to ensure quality and creativity in every generated image."
+                data-ar="ببساطة، اكتب وصف الصورة اللي عايزها. الذكاء الصناعي بيحول وصفك لصورة خاصة بناءً على اللي كتبته. المنصة بتستخدم أحدث التقنيات لضمان الجودة والإبداع.">
+                Simply provide a text description of what you want the image to look like. The platform’s AI interprets
+                your description and creates an image tailored to your input. It uses state-of-the-art algorithms to
+                ensure quality and creativity in every generated image.
+            </p>
+        </div>
+
+        <div class="faq-item">
+            <h3 data-en="Is Youssef Generate Image free?" data-ar="Youssef لتوليد الصور مجاني؟">Is Youssef Generate
+                Image free?</h3>
+            <p data-en="Yes! The platform offers a free trial that allows users to generate a limited number of images. For additional features and unlimited access, you can choose from the premium plans available."
+                data-ar="أيوة! الموقع بيوفر تجربة مجانية عشان تولد عدد محدود من الصور. لو عايز مميزات أكتر واستخدام بدون حدود، ممكن تشترك في الخطط المدفوعة.">
+                Yes! The platform offers a free trial that allows users to generate a limited number of images. For
+                additional features and unlimited access, you can choose from the premium plans available.
+            </p>
+        </div>
+
+        <div class="faq-item">
+            <h3 data-en="What kind of images can I create?" data-ar="ممكن أعمل صور شكلها إزاي؟">What kind of images can
+                I create?</h3>
+            <p data-en="You can create a wide range of images, including realistic landscapes, abstract art, character designs, and more. The possibilities are endless, limited only by your imagination."
+                data-ar="تقدر تعمل صور كتير زي مناظر طبيعية، تصميمات تجريدية، تصميم شخصيات، وحاجات تانية كتير. مفيش حدود لإبداعك.">
+                You can create a wide range of images, including realistic landscapes, abstract art, character designs,
+                and more. The possibilities are endless, limited only by your imagination.
+            </p>
+        </div>
+
+        <div class="faq-item">
+            <h3 data-en="How can I improve my results?" data-ar="إزاي أحسن النتايج؟">How can I improve my results?</h3>
+            <p data-en="Use detailed descriptions when creating an image. Include specific elements such as colors, objects, and styles. Experiment with various prompts to discover creative possibilities and refine your results."
+                data-ar="استخدم وصف دقيق لما عايز تعمله. قول الألوان والأشياء اللي عايزها. جرب أفكار مختلفة لاكتشاف حاجات جديدة وتحسين الصور بتاعتك.">
+                Use detailed descriptions when creating an image. Include specific elements such as colors, objects, and
+                styles. Experiment with various prompts to discover creative possibilities and refine your results.
+            </p>
+        </div>
+        <button id="returnButton" class="return-button" data-en="Return to Home"
+            data-ar="الرجوع إلى الصفحة الرئيسية">Return to Home</button>
+    </section>
+    <footer>
+        <p>&copy; 2024 Youssef Generate Image. All rights reserved. <br> <a href="about.html">About Us</a> | <a
+                href="contact.html">Contact Us</a></p>
+    </footer>
+
+    <button id="returnButton" data-en="Return to Home" data-ar="الرجوع إلى الصفحة الرئيسية">Return to Home</button>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="progress-container">
+            <div class="progress-circle">
+                <div class="circle" id="progressCircle"></div>
+            </div>
+            <img src="Images/Logo Y 2.png" alt="Logo" class="loading-logo">
+        </div>
+        <p id="loadingText" class="loading-text">0%</p>
+    </div>
+    <script>
+        const languageIcon = document.getElementById('languageIcon');
+        const languageDropdown = document.getElementById('languageDropdown');
+        const htmlElement = document.documentElement;
+        const returnButton = document.getElementById('returnButton');
+
+        // تعيين اللغة الافتراضية عند تحميل الصفحة
+        window.onload = () => {
+            // إذا كانت اللغة هي العربية، يتم عرض الإنجليزية في القائمة
+            if (htmlElement.lang === 'ar') {
+                languageDropdown.innerHTML = '<li data-lang="en">English</li>';
+            } else {
+                languageDropdown.innerHTML = '<li data-lang="ar">العربية</li>';
+            }
+        };
+
+        // Toggle Language Dropdown
+        languageIcon.addEventListener('click', () => {
+            languageDropdown.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!languageIcon.contains(event.target)) {
+                languageDropdown.classList.remove('show');
+            }
+        });
+
+        // Change Language
+        languageDropdown.addEventListener('click', (event) => {
+            if (event.target.dataset.lang) {
+                const selectedLang = event.target.dataset.lang;
+
+                if (selectedLang === 'ar') {
+                    htmlElement.lang = 'ar';
+                    document.body.dir = 'rtl'; // Arabic text direction
+                    document.querySelectorAll('[data-ar]').forEach(el => {
+                        el.textContent = el.dataset.ar;
+                    });
+                    languageDropdown.innerHTML = '<li data-lang="en">English</li>'; // Show English when Arabic is selected
+                } else {
+                    htmlElement.lang = 'en';
+                    document.body.dir = 'ltr'; // English text direction
+                    document.querySelectorAll('[data-en]').forEach(el => {
+                        el.textContent = el.dataset.en;
+                    });
+                    languageDropdown.innerHTML = '<li data-lang="ar">العربية</li>'; // Show Arabic when English is selected
+                }
+
+                // Close the dropdown after selection
+                languageDropdown.classList.remove('show');
+            }
+        });
+
+        // Return Button Click Event
+        returnButton.addEventListener('click', () => {
+            window.location.href = "image.html"; // Redirect to the home page or any other page
+        });
+
+        // FAQ: Toggle answers when clicking questions
+        document.addEventListener("DOMContentLoaded", () => {
+            const faqItems = document.querySelectorAll(".faq-item h3");
+
+            faqItems.forEach((item) => {
+                item.addEventListener("click", () => {
+                    const answer = item.nextElementSibling; // الإجابة تحت السؤال
+
+                    // إظهار/إخفاء الإجابة
+                    answer.style.display = answer.style.display === "block" ? "none" : "block";
+                });
+            });
+
+            // Loading screen logic
+            const loadingScreen = document.getElementById("loadingScreen");
+            const loadingText = document.querySelector("#loadingScreen .loading-text");
+            const progressCircle = document.querySelector(".progress-circle");
+
+            let progress = 0;
+            const totalTime = 50; // وقت التحميل الإجمالي: نصف ثانية
+            const intervalTime = totalTime / 100; // وقت التحديث لكل 1%
+
+            const loadingInterval = setInterval(() => {
+                progress += 1;
+
+                // تحديث النص
+                loadingText.textContent = `${progress}%`;
+
+                // تحديث الدائرة باستخدام conic-gradient
+                progressCircle.style.background = `conic-gradient(#ff0051 ${progress * 3.6}deg, #9900ff 0deg)`;
+
+                // التحقق من الاكتمال
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    loadingScreen.style.display = "none"; // إخفاء شاشة التحميل عند الانتهاء
+                }
+            }, intervalTime);
+        });
+
+    </script>
+</body>
+
+</html>
