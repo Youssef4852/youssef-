@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-ar="يوسف لعمل الصور - بحث" data-en="Youssef Generate Image - Search">Youssef Generate Image - Search
+    </title>
+    <link rel="icon" type="image/png" href="Logo Y 5.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #202020;
+            --text-color: #ffffff;
+            --button-color: #ff0051;
+
+            --hover-color: #9900ff;
+
+            --border-color: #333333;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            background: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 9vh;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px 25px;
+            background-color: #202020;
+            border-bottom: 1px solid #333;
+        }
+
+        /* زر Reload */
+        .reload-btn {
+            padding: 10px 15px;
+            color: #fff;
+            background: linear-gradient(90deg, #ff0051, #9900ff);
+
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease-in-out;
+            margin-right: -1px;
+        }
+
+        .reload-btn:hover {
+            background: linear-gradient(90deg, #9900ff, #ff0051);
+            color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px #ff0051;
+        }
+
+        .reload-btn i {
+            margin: 0;
+            box-shadow: 0 6px 10px rgba(255, 0, 191, 0.2);
+            /* ظل أكبر عند التمرير */
+        }
+
+        /* لضمان أن الزر يكون على يسار الخانة البيضاء */
+        .form-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: -10px;
+        }
+
+        .logo {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+            gap: 1px;
+
+        }
+
+        .nav-bar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            display: inline-block;
+        }
+
+        /* تأثير عند المرور بالفأرة (Hover Effect) */
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px 15px;
+            transition: color 0.3s ease-in-out, background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* تأثير خلفية التدرج اللوني عند الهوفر */
+        .nav-links a:hover {
+            color: #fff;
+
+
+            border-radius: 5px;
+        }
+
+        /* تأثير الشريط السفلي عند الهوفر */
+        .nav-links a {
+            position: relative;
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px 15px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 0;
+            height: 3px;
+            border-radius: 200px;
+            background: #ff0051;
+            transition: width 0.4s ease, left 0.4s ease;
+            transform: translateX(100%);
+            top: 40px;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+            left: 0;
+            transform: translateX(0);
+        }
+
+
+        .nav-links a:active::after {
+            width: 100%;
+            left: 0;
+            transform: scale(1.1);
+        }
+
+        .nav-links a:active {
+            color: #9900ff;
+            transform: scale(1.1);
+            background-position: left;
+        }
+
+
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-icon {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .language-icon:hover {
+
+            color: #ff0051;
+        }
+
+        .language-icon i {
+            margin-right: 5px;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 10px;
+            left: -20px;
+            list-style: none;
+            border-radius: 5px;
+            display: none;
+            padding: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            background: #9900ff;
+}
+.language-dropdown:hover {
+    background: #ff0051;
+   transform: scale(1.01);
+}
+
+        .language-dropdown li {
+            font-size: 15px;
+            padding: 10px 20px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+       
+
+        .language-dropdown.show {
+            display: block;
+        }
+        #search-container {
+            margin: 50px auto;
+            text-align: center;
+            max-width: 800px;
+        }
+
+        #search-bar {
+            display: flex;
+            gap: 15px;
+            background: #303030;
+            padding: 8px 9px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #search-bar input {
+            flex: 2;
+            padding: 6px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            background: none;
+            color: var(--text-color #fff);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        #search-bar button {
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            /* زر دائري */
+            background: linear-gradient(90deg, #9900ff, #ff0051);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            /* ظل خفيف */
+            transition: all 0.3s ease;
+            /* تأثير عند التمرير */
+        }
+
+        #search-bar button:hover {
+            background: linear-gradient(90deg, #ff0051, #9900ff);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+            /* زيادة الظل */
+            transform: scale(1.05);
+            /* تكبير خفيف */
+        }
+
+
+        #results {
+            margin: 20px auto;
+            /* تقليل الهامش */
+            max-width: 800px;
+            padding: 10px 2px;
+            /* تقليل الحشو */
+            background: #242424;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #results {
+            display: none;
+            /* إخفاء العنصر */
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 10px 2px;
+            background: #242424;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+
+        .result a {
+            text-decoration: none;
+            color: var(--button-color);
+            font-size: 16px;
+            /* حجم النص */
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .result a:hover {
+            color: var(--hover-color);
+        }
+
+        .result p {
+            font-size: 14px;
+            color: #fff;
+            margin: 0 0 10px;
+            /* إزالة المسافات حول النصوص */
+        }
+
+        iframe {
+            width: 99.5%;
+            height: 645px;
+            /* زيادة الطول */
+            border: 2px solid #ff0051;
+            /* إطار مميز */
+            border-radius: 10px;
+            /* حواف مستديرة */
+            display: none;
+            /* إخفاء iframe افتراضيًا */
+            margin-top: 20px;
+        }
+
+        /* حاوية الرسالة */
+        #error-container {
+            display: none;
+            /* مخفي افتراضيًا */
+            justify-content: center;
+            /* محاذاة أفقية */
+            align-items: center;
+            /* محاذاة عمودية */
+            flex-direction: column;
+            /* ترتيب عمودي */
+            height: 100vh;
+            /* تغطي الشاشة */
+            text-align: center;
+            position: fixed;
+            /* تثبيت في منتصف الشاشة */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            /* خلفية شفافة */
+            z-index: 1000;
+            /* فوق أي محتوى */
+        }
+
+        /* زر فتح الموقع */
+        #open-link-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #open-link-button:hover {
+            background-color: #0056b3;
+        }
+
+        .main-footer {
+            background-color: #202020;
+            color: white;
+            padding: 1px 0;
+            margin-top: 390px;
+            text-align: left;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1000px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 40px;
+            padding: 0 20px;
+            margin-left: 100px;
+        }
+
+        .footer-section {
+            flex: 1 1 300px;
+            margin-top: 20px;
+            padding-top: 10px;
+
+        }
+
+        .footer-section h4 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 15px;
+
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            background: linear-gradient(to right, #ff0051, #9900ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: scale(1.1);
+        }
+
+        .footer-logo-container {
+            text-align: center;
+            margin-top: 1px;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1px;
+            color: #fff;
+            fill: #fff;
+            opacity: 0;
+        }
+
+        .footer-logo-container p {
+            color: #fff;
+            font-size: 15px;
+            margin-top: 1px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            /* عرض شريط التمرير */
+            background-color: #333;
+            /* لون خلفية شريط التمرير */
+        }
+
+        /* تخصيص مقبض شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+            /* عرض شريط التمرير */
+            background-color: #333;
+            /* لون خلفية شريط التمرير */
+        }
+
+        /* تخصيص مقبض شريط التمرير */
+        ::-webkit-scrollbar-thumb {
+            background-color: #9900ff;
+            /* لون المقبض */
+            border-radius: 10px;
+            /* جعل المقبض دائري */
+        }
+
+        /* عند تمرير الفأرة فوق المقبض */
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #ff0051;
+            /* لون المقبض عند التمرير */
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="Images/Logo Y 2.png" alt="Logo" class="logo">
+            <h1 class="site-title" data-ar="يوسف لعمل الصور" data-en="oussef Generate Image">oussef Generate Image</h1>
+        </div>
+
+        <nav class="nav-bar">
+            <ul class="nav-links">
+
+                <li><a href="login.html" data-en="Log In" data-ar="تسجيل الدخول">Log In</a></li>
+                <li><a href="faq.html" data-en="FAQ" data-ar="الأسئلة الشائعة">FAQ</a></li>
+                <li><a href="contact.html" data-en="Contact Us" data-ar="اتصل بنا">Contact Us</a></li>
+                <li><a href="about.html" data-en="About Us" data-ar="معلومات عنا">About Us</a></li>
+                <li><a href="imageall.html" data-en="Image Gallery" data-ar="معرض الصور">Image Gallery</a></li>
+
+                <li><a id="scroll-down-btn" href="#footer" data-en="Bottom Menu" data-ar="القائمة الي تحت">Bottom
+                        Menu</a></li>
+            </ul>
+
+        </nav>
+
+
+        <div class="language-selector">
+            <div class="language-icon" id="languageIcon">
+                <i class="fas fa-globe"></i>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <ul class="language-dropdown" id="languageDropdown">
+                <li class="language-option" data-lang="ar">العربية</li>
+            </ul>
+        </div>
+    </header>
+
+
+    <div id="content">
+        <div id="search-container">
+            <div id="search-bar">
+                <!-- العنصر مع النصوص الخاصة بكل لغة -->
+                <html lang="en">
+                    <body>
+                        <input type="text" id="search-input" placeholder="Search for anything here" data-ar="ابحث عن أي شيء هنا" data-en="Search for anything here">
+                    </body>
+                </html>
+                
+
+                <button onclick="search() " data-ar="بحث" data-en="Search">Search</button>
+            </div>
+        </div>
+        <div id="results"></div>
+        <iframe id="content-frame"></iframe>
+        <div id="error-container">
+            <p id="error-message"></p>
+            <button id="open-link-button" style="display: none;">فتح الموقع في نافذة جديدة</button>
+        </div>
+
+        <footer class="main-footer" id="footer">
+            <div class="footer-container">
+                <div class="footer-section" data-aos="fade-up">
+                    <h4 data-en="Resources" data-ar="الموارد">
+                        <i class="fas fa-cogs"></i> Resources
+                    </h4>
+                    <ul>
+                        <li><a href="quick-start.html" data-en="Quick Start Guide" data-ar="دليل البداية"><i
+                                    class="fas fa-book"></i> Quick Start Guide</a></li>
+                        <li><a href="best-practices.html" data-en="Best Practices" data-ar="أفضل الممارسات"><i
+                                    class="fas fa-check-circle"></i> Best Practices</a></li>
+                        <li><a href="tutorial-videos.html" data-en="Tutorial Videos" data-ar="فيديوهات تعليمية"><i
+                                    class="fas fa-video"></i> Tutorial Videos</a></li>
+                        <li><a href="beginner-tips.html" data-en="Beginner Tips" data-ar="نصائح للمبتدئين"><i
+                                    class="fas fa-lightbulb"></i> Beginner Tips</a></li>
+                        <li><a href="faq.html" data-en="FAQ Guide" data-ar="دليل الأسئلة الشائعة"><i
+                                    class="fas fa-question-circle"></i> FAQ Guide</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section" data-aos="fade-up">
+                    <h4 data-en="About Us" data-ar="معلومات عنا">
+                        <i class="fas fa-info-circle"></i> About Us
+                    </h4>
+                    <ul>
+                        <li><a href="about.html" data-en="About Us" data-ar="معلومات عنا"><i class="fas fa-users"></i>
+                                About
+                                Us</a></li>
+                        <li><a href="contact.html" data-en="Contact Us" data-ar="اتصل بنا"><i
+                                    class="fas fa-phone-alt"></i>
+                                Contact Us</a></li>
+                        <li><a href="solutions.html" data-en="Our Solutions" data-ar="حلولنا"><i
+                                    class="fas fa-briefcase"></i> Our Solutions</a></li>
+                        <li><a href="login.html" data-en="Log In" data-ar="تسجيل الدخول"><i
+                                    class="fas fa-sign-in-alt"></i>
+                                Log In</a></li>
+                        <li>
+                            <a href="imageall.html" data-en="Image Gallery" data-ar="معرض الصور">
+                                <i class="fas fa-images"></i> Image Gallery
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="footer-section" data-aos="fade-up">
+                    <h4 data-en="Contact Us" data-ar="اتصل بنا">
+                        <i class="fas fa-address-book"></i> Contact Us
+                    </h4>
+                    <ul>
+                        <ul>
+                            <li>
+                                <a href="mailto:youssefosamatar@gmail.com" target="_blank">
+                                    <i class="fas fa-envelope"></i>
+                                    <span data-ar="البريد الإلكتروني" data-en="Email">Email</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="tel:+201000510910" target="_blank">
+                                    <i class="fas fa-phone"></i>
+                                    <span data-en="Phone" data-ar="الموبايل">Phone</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://maps.app.goo.gl/8x6NyCnbcbjUKEuG7" target="_blank">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span data-en="Location" data-ar="الموقع">Location</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-logo-container" data-aos="zoom-in-left">
+                <img src="Logo Y Footer2.png" alt="Logo" class="footer-logo">
+                <p data-en="&copy; 2024 Youssef Generate Image. All rights reserved."
+                    data-ar="© 2024 يوسُف لتوليد الصور. جميع الحقوق محفوظة.">
+                    &copy; 2024 Youssef Generate Image. All rights reserved.
+                </p>
+            </div>
+        </footer>
+        <script>
+            const languageIcon = document.getElementById('languageIcon');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const htmlElement = document.documentElement;
+        
+            // عرض وإخفاء القائمة مع تغيير الأيقونة
+            languageIcon.addEventListener('click', () => {
+                languageDropdown.classList.toggle('show');
+            });
+        
+            document.addEventListener('click', (event) => {
+                if (!languageIcon.contains(event.target) && !languageDropdown.contains(event.target)) {
+                    languageDropdown.classList.remove('show');
+                }
+            });
+        
+            // تغيير اللغة
+            languageDropdown.addEventListener('click', (event) => {
+                if (event.target.classList.contains('language-option')) {
+                    const selectedLang = event.target.dataset.lang;
+        
+                    if (selectedLang === 'ar') {
+                        htmlElement.lang = 'ar';
+                        document.body.dir = 'rtl';
+                        document.querySelectorAll('[data-ar]').forEach(el => {
+                            el.textContent = el.dataset.ar;
+                        });
+                        languageDropdown.innerHTML = '<li class="language-option" data-lang="en">English</li>';
+                    } else {
+                        htmlElement.lang = 'en';
+                        document.body.dir = 'ltr';
+                        document.querySelectorAll('[data-en]').forEach(el => {
+                            el.textContent = el.dataset.en;
+                        });
+                        languageDropdown.innerHTML = '<li class="language-option" data-lang="ar">العربية</li>';
+                    }
+        
+                    languageDropdown.classList.remove('show');
+                }
+            });
+        
+            // وظيفة البحث
+            async function search() {
+                const query = document.getElementById('search-input').value.trim();
+                const resultsDiv = document.getElementById('results');
+                const iframe = document.getElementById('content-frame');
+        
+                if (!query) {
+                    resultsDiv.innerHTML = '<p>يرجى إدخال كلمة للبحث.</p>';
+                    resultsDiv.style.display = 'block'; // إظهار الرسالة
+                    return;
+                }
+        
+                const apiKey = 'AIzaSyBT-Ae4CWFka_1DEdXdM6MZuUWv_VZm9WY'; // مفتاح API الخاص بك
+                const searchEngineId = 'c355cc55d2e07440a'; // معرف محرك البحث المخصص
+                const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchEngineId}&q=${encodeURIComponent(query)}`;
+        
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+        
+                    resultsDiv.innerHTML = '';
+                    iframe.style.display = 'none';
+        
+                    if (data.items && data.items.length > 0) {
+                        resultsDiv.style.display = 'block'; // إظهار النتائج فقط عند وجود عناصر
+                        data.items.forEach(item => {
+                            const resultDiv = document.createElement('div');
+                            resultDiv.className = 'result';
+        
+                            const link = document.createElement('a');
+                            link.href = '#';
+                            link.textContent = item.title;
+                            link.onclick = (e) => {
+                                e.preventDefault();
+                                iframe.src = item.link;
+                                iframe.style.display = 'block';
+                                document.getElementById('content-frame').scrollIntoView({ behavior: 'smooth' });
+                            };
+        
+                            const snippet = document.createElement('p');
+                            snippet.textContent = item.snippet;
+        
+                            resultDiv.appendChild(link);
+                            resultDiv.appendChild(snippet);
+                            resultsDiv.appendChild(resultDiv);
+                        });
+                    } else {
+                        resultsDiv.innerHTML = '<p>لا توجد نتائج.</p>';
+                        resultsDiv.style.display = 'block'; // إظهار رسالة عدم وجود نتائج
+                    }
+                } catch (error) {
+                    resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث. حاول مرة أخرى.</p>';
+                    resultsDiv.style.display = 'block'; // إظهار رسالة الخطأ
+                }
+            }
+        </script>
+        
